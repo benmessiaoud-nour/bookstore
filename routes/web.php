@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\GalleryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,9 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
 
 Route::middleware([
     'auth:sanctum',
@@ -23,6 +22,9 @@ Route::middleware([
     'verified'
 ])->group(function () {
     Route::get('/dashboard', function () {
-        return view('dashboard');
+        return view('Gallery');
     })->name('dashboard');
 });
+
+Route::get('/',[GalleryController::class,'index'])->name('gallery.index');
+Route::get('/search',[GalleryController::class,'search'])->name('search');
