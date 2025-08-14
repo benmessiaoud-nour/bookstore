@@ -43,21 +43,21 @@
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 mx-auto">
 
                     <li class="nav-item ms-4">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="{{route('gallery.authors.index')}}">
                             <i class="fa-solid fa-pen"></i>
                             Authors
                         </a>
                     </li>
 
                     <li class="nav-item ms-4">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="{{route('gallery.publishers.index')}}">
                             <i class="fa-solid fa-table"></i>
                             Publishers
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link ms-4" href="#">
+                        <a class="nav-link ms-4" href="{{route('gallery.categories.index')}}">
                             <i class="fa-solid fa-layer-group"></i>
                             Category
                         </a>

@@ -82,4 +82,21 @@ class CategoriesController extends Controller
     {
         //
     }
+
+    public function result (Category $category){
+        $books =$category->books()->paginate(12);
+        $title= 'Results For Category:'  . $category->name;
+        return view('gallery',compact('books','title'));
+    }
+
+    public function list(){
+        $categories = Category::all()->sortBy('name');
+        $title = 'Categories';
+        return view('categories.index',compact('categories','title'));
+    }
+    public function search(Request $request){
+        $categories = Category::where('name','like',"%{$request->term}%")->get()->sortBy('name');
+        $title='Results For Category:' .$request->term;
+        return view('categories.index',compact('categories','title'));
+    }
 }

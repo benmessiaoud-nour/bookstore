@@ -4,7 +4,7 @@
 
 <style>
     .row .title{
-        font-size: 2.5rem;
+        font-size: 2rem;
         color: #1F2D3D;
         text-shadow: 0 2px 5px rgba(0,0,0,0.3);
     }
@@ -59,10 +59,12 @@
                     @if($book->nbr_of_copies>0)
             <div class="col-lg-3 col-md-4 col-sm-6 mt-2">
                 <div class="card mb-5" style="width: 18rem;">
-                    <img src="{{asset('storage/'.$book->cover_image)}}" class="card-img-top" alt="">
+                    <a href="{{route('book.details',$book)}}">
+                        <img src="{{asset('storage/'.$book->cover_image)}}" class="card-img-top" alt=""></a>
+
                     <div class="card-body">
-                        <h6 class="card-title"><a class=" mb-0" href="#">{{$book->title}}</a></h6>
-                        <a class=" card-description" href="#">
+                        <h6 class="card-title"><a class=" mb-0" href="{{route('book.details',$book)}}">{{$book->title}}</a></h6>
+                        <a class=" card-description" href="{{route('gallery.categories.show',$book->category)}}">
                             @if($book->category!=NULL)
                                 {{$book->category->name}}
                             @endif

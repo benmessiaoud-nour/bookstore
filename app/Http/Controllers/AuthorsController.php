@@ -80,6 +80,23 @@ class AuthorsController extends Controller
      */
     public function destroy(Author $author)
     {
-        //
+
+    }
+
+    public function result (Author $author){
+        $books =$author->book()->paginate(12);
+        $title= 'Results For Author:'  . $author->name;
+        return view('gallery',compact('books','title'));
+    }
+
+    public function list(){
+        $authors = Author::all()->sortBy('name');
+        $title = 'authors';
+        return view('authors.index',compact('authors','title'));
+    }
+    public function search(Request $request){
+        $authors = Author::where('name','like',"%{$request->term}%")->get()->sortBy('name');
+        $title='Results For Category:' .$request->term;
+        return view('authors.index',compact('authors','title'));
     }
 }
