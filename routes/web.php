@@ -6,6 +6,8 @@ use App\Http\Controllers\BooksController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\PublishersController;
 use App\Http\Controllers\AuthorsController;
+use App\Http\Controllers\AdminsController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -45,3 +47,7 @@ Route::get('/publishers/{publisher}',[PublishersController::class,'result'])->na
 Route::get('/authors',[AuthorsController::class,'list'])->name('gallery.authors.index');
 Route::get('/authors/search',[AuthorsController::class,'search'])->name('gallery.authors.search');
 Route::get('/authors/{author}',[AuthorsController::class,'result'])->name('gallery.authors.show');
+
+Route::get('/admin',[AdminsController::class,'index'])->name('admin.index');
+
+Route::get('/admin/books',[BooksController::class,'index'])->name('books.index');
