@@ -50,4 +50,5 @@ Route::get('/authors/{author}',[AuthorsController::class,'result'])->name('galle
 
 Route::get('/admin',[AdminsController::class,'index'])->name('admin.index');
 
-Route::get('/admin/books',[BooksController::class,'index'])->name('books.index');
+Route::resource('admin/books','App\Http\Controllers\BooksController');
+
