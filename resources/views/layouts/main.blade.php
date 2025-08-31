@@ -97,6 +97,9 @@
                               <div class="pt-2 pb-2 ">
                                   <div class="flex items-center px-3">
 
+                                      @can('update-users')
+                                          <a href="{{route('admin.index')}}" class="dropdown-item">Dashboard</a>
+                                      @endcan
 
                                       <div>
                                           <div class="font-medium text-base text-gray-800 border-bottom">{{ Auth::user()->name }}</div>

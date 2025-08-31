@@ -5,7 +5,7 @@
 @endsection
 
 @section('title')
-    Books Details
+    Books List
 @endsection
 
 @section('content')
