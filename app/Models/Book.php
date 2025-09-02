@@ -20,4 +20,12 @@ class Book extends Model
     public function author(){
         return $this->belongsToMany('App\Models\Author','book_author');
     }
+
+    public function ratings(){
+        return $this->hasMany('App\Models\Rating');
+    }
+
+    public function rate(){
+        return $this->ratings->isNotempty()? $this->ratings->sum('value') / $this->ratings->count(): 0;
+    }
 }

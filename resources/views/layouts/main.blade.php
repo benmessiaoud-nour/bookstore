@@ -3,12 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" integrity="sha512-vKMx8UnXk60zUwyUnUPM3HbQo8QfmNx7+ltw8Pm5zLusl1XIfwcxo8DbWCqMGKaWeNxWA8yrx5v3SaVpMvR3CA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>BookStore</title>
 
     <style>
@@ -23,8 +25,80 @@
             font-size: x-large;
             color: #1F2D3D;
             font-weight: bold;
+        }
+
+        .score{
+            display: block;
+            font-size: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .score-wrap {
+            display: inline-block;
+            position: relative;
+            height: 19px;
 
         }
+
+        .score .stars-active{
+            color: #FFCA00;
+            position: relative;
+            z-index: 10;
+            display: block;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .score .stars-inactive{
+            color: lightgrey;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .rating{
+            overflow:hidden;
+            display: inline-block;
+            position: relative;
+            font-size: 20px;
+        }
+
+        .rating-star{
+            padding: 0 5px;
+            margin: 0;
+            cursor: pointer;
+            display: block;
+            float: right;
+        }
+
+        .rating-star:after{
+            position: relative;
+            font-family: "Font Awesome 5 Free";
+            content: '\f005';
+            color: lightgray;
+        }
+
+        .rating-star.checked ~ .rating-star:after,
+        .rating-star.checked:after{
+            content: '\f005';
+            color: #FFCA00;
+        }
+
+        .rating:hover .rating-star:after{
+            content: '\f005';
+            color: lightgray;
+        }
+
+        .rating-star:hover ~ .rating-star:after,
+        .rating .rating-star:hover:after{
+            content: '\f005';
+            color: #FFCA00;
+        }
+
+
+
+
 
 
     </style>
@@ -189,6 +263,8 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.min.js" integrity="sha384-7qAoOXltbVP82dhxHAUje59V5r2YsVfBafyUDxEdApLPmcdhBPg1DKg1ERo0BZlK" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 @yield('script')
 </body>
 </html>

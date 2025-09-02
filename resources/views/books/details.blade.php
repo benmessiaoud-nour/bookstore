@@ -3,13 +3,15 @@
 
 
 @section('head')
-<style>
-    .row .headline h3{
-        font-size: 2rem;
-        color: #1F2D3D;
-        text-shadow: 0 2px 5px rgba(0,0,0,0.3);
-    }
-</style>
+    <style>
+        .row .headline h3{
+            font-size: 2rem;
+            color: #1F2D3D;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+
+
+    </style>
 @endsection
 
 
@@ -42,6 +44,33 @@
                     </b>
 
                 </p>
+                <hr>
+                <h4> Ratings</h4>
+
+                <div>
+                            <span class="score">
+                                <div class="score-wrap">
+                                    <span class="stars-active" style="width:{{$book->rate()*20}}%">
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                    </span>
+
+                                              <span class="stars-inactive">
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                    </span>
+                                </div>
+                            </span>
+
+                    <span>Rated By {{$book->ratings()->count()}} User</span>
+                </div>
+
                 <hr>
 
                 @if($book->category)
@@ -95,7 +124,59 @@
                         @endif
                     </p>
                 </div>
+
+                @auth()
+
+                    <h4 class="mb-3">Rate This Book</h4>
+                    @if(auth()->user()->rated($book))
+                        <div class="rating">
+                            <span class="rating-star {{auth()->user()->bookRating($book)->value ==5 ? 'checked' : '' }}" data-value="5"></span>
+                            <span class="rating-star {{auth()->user()->bookRating($book)->value ==4 ? 'checked' : '' }}" data-value="4"></span>
+                            <span class="rating-star {{auth()->user()->bookRating($book)->value ==3 ? 'checked' : '' }}" data-value="3"></span>
+                            <span class="rating-star {{auth()->user()->bookRating($book)->value ==2 ? 'checked' : '' }}" data-value="2"></span>
+                            <span class="rating-star {{auth()->user()->bookRating($book)->value ==1 ? 'checked' : '' }}" data-value="1"></span>
+
+                        </div>
+                    @else
+                        <div class="rating">
+                            <span class="rating-star" data-value="5"></span>
+                            <span class="rating-star" data-value="4"></span>
+                            <span class="rating-star" data-value="3"></span>
+                            <span class="rating-star" data-value="2"></span>
+                            <span class="rating-star" data-value="1"></span>
+
+                        </div>
+
+
+                    @endif
+                @endauth
+
+
             </div>
         </div>
     </div>
+@endsection
+
+
+@section('script')
+    <script>
+        $('.rating-star').click(function(){
+            let value = $(this).data('value');   // ✅ get the star’s value (1–5)
+
+            $.ajax({
+                type: 'post',
+                url: '/books/{{ $book->id }}/rate',   // ✅ safer URL format
+                data:{
+                    '_token': $('meta[name="csrf-token"]').attr('content'),
+                    'value': value
+                },
+                success: function (){
+                    location.reload(); // refresh page to show updated rating
+                },
+                error: function (){
+                    alert('Something went wrong');
+                },
+            });
+        });
+    </script>
 @endsection
