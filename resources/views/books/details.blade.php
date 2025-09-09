@@ -127,6 +127,17 @@
 
                 @auth()
 
+                    <hr>
+
+               <div class="form text-center mb-2">
+                                <input id="bookId" type="hidden" value="{{ $book->id }}">
+                                <span class="text-muted mb-3"><input class="form-control d-inline mx-auto" id="quantity" name="quantity" type="number" value="1" min="1" max="{{ $book->nbr_of_copies }}" style="width:10%;" required></span> 
+                                <button type="submit" class="btn bg-cart addCart me-2"><i class="fa fa-cart-plus"></i>  Add To Cart</button>
+                            </div>
+
+
+                     <hr>
+
                     <h4 class="mb-3">Rate This Book</h4>
                     @if(auth()->user()->rated($book))
                         <div class="rating">
@@ -177,6 +188,36 @@
                     alert('Something went wrong');
                 },
             });
+        });
+    </script>
+
+      <script>
+        $('.addCart').on('click', function(event) {
+            var token = '{{ Session::token() }}';
+            var url = "{{ route('cart.add') }}";
+
+            event.preventDefault();
+
+            var bookId = $(this).parents(".form").find("#bookId").val()
+            var quantity = $(this).parents(".form").find("#quantity").val()
+
+
+            $.ajax({
+                method: 'POST',
+                url: url,
+                data: {
+                    quantity: quantity, 
+                    id: bookId,
+                    _token: token
+                },
+                success : function(data) {            
+                    $('span.badge').text(data.num_of_product);
+                    toastr.success(' Add Successfully  ')
+                },
+                error: function() {
+                    alert(' Something Is Wrong ');
+                }
+            })  
         });
     </script>
 @endsection

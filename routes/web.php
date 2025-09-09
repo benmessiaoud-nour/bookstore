@@ -7,6 +7,8 @@ use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\PublishersController;
 use App\Http\Controllers\AuthorsController;
 use App\Http\Controllers\AdminsController;
+use App\Http\Controllers\CartController;
+
 
 
 /*
@@ -64,3 +66,8 @@ Route::prefix('/admin')->middleware('can:update-books')->group(function () {
     Route::resource('/users','App\Http\Controllers\UsersController')->middleware('can:update-users');
 });
 
+Route::post('/cart',[CartController::class,'addToCart'])->name('cart.add');
+
+Route::get('/cart',[CartController::class,'ViewCart'])->name('cart.view');
+Route::post('/cart/removeOne/{book}',[CartController::class,'removeOne'])->name('cart.remove_one');
+Route::post('/cart/removeAll/{book}',[CartController::class,'removeAll'])->name('cart.remove_all');

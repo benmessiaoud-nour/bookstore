@@ -21,12 +21,32 @@
             font-style: normal;
             background-color: #E6EEF5;
         }
+
         .navbar .navbar-brand{
             font-size: x-large;
             color: #1F2D3D;
             font-weight: bold;
         }
 
+        .bg-cart{
+            background-color: #660B05;
+            color: #fff;
+        }
+
+.nav-item {
+    position: relative;
+}
+
+.nav-item .badge {
+    position: absolute;
+    top: -5px;   /* move it above */
+    right: -10px; /* move it to the right */
+    border-radius: 50%;
+    font-size: 10px;
+    padding: 4px 7px;
+    background: red;
+    color: white;
+}
         .score{
             display: block;
             font-size: 16px;
@@ -136,12 +156,21 @@
                             Category
                         </a>
                     </li>
-
+                    @auth
                     <li class="nav-item">
-                        <a class="nav-link ms-4" href="#">
-                            <i class="fa-solid fa-cart-shopping"></i>
+                        <a class="nav-link ms-4" href="{{route('cart.view')}}">
+                            @if(Auth::user()->booksInCart()->count() > 0)
+                                <span class="badge bg-danger">{{Auth::user()->booksInCart()->count() }}</span>
+                            @else
+                                <span class="badge bg-danger">0</span>
+
+                            @endif
+
+                            <i class="fa-solid fa-cart-shopping" style="position: relative;"></i>
                         </a>
                     </li>
+
+                    @endauth
                 </ul>
 
                   <ul class="navbar-nav ml-auto me-3">
