@@ -60,4 +60,43 @@ class PurchaseController extends Controller
         }
         return response()->json($result);
              }
+
+            public function creditCheckout(Request $request){
+                   $intent=auth()->user()->createSetupIntent();
+
+                   $userId=auth()->user();
+                    $books = $userId->booksInCart;
+                   $total=0;
+                   foreach($books as$book){
+                       $total+=$book->price * $book->pivot->nbr_of_copies;
+                   }
+                   return view('credit.checkout',compact('total','intent'));
+            }
+
+            public function purchase(Request $request){
+            $user =$request->user();
+            $paymentMethod=$request->input('payment_method');
+
+                $userId=auth()->user();
+                $books = $userId->booksInCart;
+                $total=0;
+                foreach($books as$book){
+                    $total+=$book->price * $book->pivot->nbr_of_copies;
+                }
+
+                try{
+                    $user->createOrGetStripeCustomer();
+                    $user->updateDefaultPaymentMethod($paymentMethod);
+                    $user->charge($total *100,$paymentMethod);
+                }catch(\Exception $exception){
+                      return back()->with('Error Check Your Card Information '. $exception->getMessage());
+                }
+                foreach($books as $book){
+                    $bookPrice =$book->price;
+                    $purchaseTime= Carbon::now();
+                    $user->booksInCart()->updateExistingPivot($book->id,['bought'=>TRUE,'price'=>$bookPrice,'created_at'=>$purchaseTime]);
+                    $book->save();
+                }
+                return redirect('/cart')->with('message','Bought Successfully');
+            }
 }

@@ -5,6 +5,9 @@
 <div class="container">
    <div class="row justify-content-center">
        <div id="success" style="display:none" class="col-md-8 text-center h5 p-4 bg-success text-light-rounded">Bought Successfully</div>
+       @if(session('message'))
+           <div  style="display:none" class="col-md-8 text-center h5 p-4 bg-success text-light-rounded">Bought Successfully</div>
+       @endif
        <div class="col-md-12">
            <div class="card mt-6">
                <div class="card-header">
@@ -57,6 +60,11 @@
                        <h4 class="mb-5">Total Price: {{$totalPrice}}$</h4>
 
                        <div class="d-inline-block" id="paypal-button-container"></div>
+
+                       <a href="{{route('credit.checkout')}}" class="d-inline-block float-end mb-4 btn btn-primary" style="text-decoration: none">
+                       <span>Credit Cart Payment</span>
+                           <i class="fas fa-credit-card"></i>
+                       </a>
 
                    @else
                        <div class="alert alert-info text-center">No Books In Your Cart</div>
