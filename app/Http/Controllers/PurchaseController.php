@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\Mail\OrderMail;
+use Illuminate\Support\Facades\Mail;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 
 
@@ -44,12 +46,12 @@ class PurchaseController extends Controller
     }
 
              public function executePayment(Request $request){
-        $data = json_decode($request->getContent(),true);
-        $result=$this->provider->capturePaymentOrder($data['orderId']);
+                $data = json_decode($request->getContent(),true);
+                $result=$this->provider->capturePaymentOrder($data['orderId']);
 
-        if($result['status']=='COMPLETED'){
-            $user=User::find($data['userId']);
-            $books=$user->booksInCart;
+                if($result['status']=='COMPLETED'){
+                 $user=User::find($data['userId']);
+                 $books=$user->booksInCart;
 
             foreach($books as $book){
                 $bookPrice =$book->price;
@@ -57,6 +59,7 @@ class PurchaseController extends Controller
                 $user->booksInCart()->updateExistingPivot($book->id,['bought'=>TRUE,'price'=>$bookPrice,'created_at'=>$purchaseTime]);
                 $book->save();
             }
+                    $this->sendOrderConfirmationMail($books,auth()->user());
         }
         return response()->json($result);
              }
@@ -91,6 +94,9 @@ class PurchaseController extends Controller
                 }catch(\Exception $exception){
                       return back()->with('Error Check Your Card Information '. $exception->getMessage());
                 }
+
+                $this->sendOrderConfirmationMail($books,auth()->user());
+
                 foreach($books as $book){
                     $bookPrice =$book->price;
                     $purchaseTime= Carbon::now();
@@ -98,5 +104,9 @@ class PurchaseController extends Controller
                     $book->save();
                 }
                 return redirect('/cart')->with('message','Bought Successfully');
+            }
+
+            public function sendOrderConfirmationMail($order,$user){
+                         Mail::to($user->email)->send(new OrderMail($order,$user));
             }
 }
