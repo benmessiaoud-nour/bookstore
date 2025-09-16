@@ -131,14 +131,17 @@
 
                <div class="form text-center mb-2">
                                 <input id="bookId" type="hidden" value="{{ $book->id }}">
-                                <span class="text-muted mb-3"><input class="form-control d-inline mx-auto" id="quantity" name="quantity" type="number" value="1" min="1" max="{{ $book->nbr_of_copies }}" style="width:10%;" required></span> 
+                                <span class="text-muted mb-3"><input class="form-control d-inline mx-auto" id="quantity" name="quantity" type="number" value="1" min="1" max="{{ $book->nbr_of_copies }}" style="width:10%;" required></span>
                                 <button type="submit" class="btn bg-cart addCart me-2"><i class="fa fa-cart-plus"></i>  Add To Cart</button>
                             </div>
 
 
                      <hr>
 
+
                     <h4 class="mb-3">Rate This Book</h4>
+
+                   @if($bookfind)
                     @if(auth()->user()->rated($book))
                         <div class="rating">
                             <span class="rating-star {{auth()->user()->bookRating($book)->value ==5 ? 'checked' : '' }}" data-value="5"></span>
@@ -158,7 +161,11 @@
 
                         </div>
 
-
+                        @endif
+                    @else
+                       <div class="alert alert-danger mt-4 " role="alert">
+                           You Can't Rate The Book Buy It First
+                       </div>
                     @endif
                 @endauth
 
@@ -206,18 +213,18 @@
                 method: 'POST',
                 url: url,
                 data: {
-                    quantity: quantity, 
+                    quantity: quantity,
                     id: bookId,
                     _token: token
                 },
-                success : function(data) {            
+                success : function(data) {
                     $('span.badge').text(data.num_of_product);
                     toastr.success(' Add Successfully  ')
                 },
                 error: function() {
                     alert(' Something Is Wrong ');
                 }
-            })  
+            })
         });
     </script>
 @endsection

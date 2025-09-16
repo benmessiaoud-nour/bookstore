@@ -83,4 +83,8 @@ class User extends Authenticatable
     public function booksInCart(){
         return $this->belongsToMany('App\Models\Book')->withPivot('nbr_of_copies','bought','price')->wherePivot('bought',false);
     }
+
+    public function ratedPurchase(){
+        return $this->belongsToMany('App\Models\Book')->withPivot('bought')->wherePivot('bought',true);
+    }
 }
