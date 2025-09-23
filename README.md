@@ -12,6 +12,7 @@ The application provides an online bookstore where users can register, log in, p
 - Book purchasing system with order history.
 - Payment integration using **PayPal** and **Stripe**.
 - Email notifications for order confirmation.
+- Admin panel.
 
 ---
 
@@ -21,7 +22,7 @@ The application provides an online bookstore where users can register, log in, p
 - **Database:** MySQL
 - **Payment:** PayPal API, Stripe API
 - **Mail Service:** Mailtrap (for testing emails)
-- Admin panel
+
 
 ---
 
