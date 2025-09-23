@@ -21,6 +21,7 @@ The application provides an online bookstore where users can register, log in, p
 - **Database:** MySQL
 - **Payment:** PayPal API, Stripe API
 - **Mail Service:** Mailtrap (for testing emails)
+- Admin panel
 
 ---
 
