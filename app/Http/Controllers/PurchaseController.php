@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\shopping;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Mail\OrderMail;
 use Illuminate\Support\Facades\Mail;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
+
 
 
 class PurchaseController extends Controller
@@ -109,4 +111,16 @@ class PurchaseController extends Controller
             public function sendOrderConfirmationMail($order,$user){
                          Mail::to($user->email)->send(new OrderMail($order,$user));
             }
+
+    Public function myProduct()
+    {
+        $userId = auth()->user()->id;
+        $myBooks = User::find($userId)->purchasedproduct()->get();
+        return view('books.myProducts', compact('myBooks'));
+    }
+
+    public function allProduct(){
+        $allBooks= shopping::with('user','book')->where('bought',true)->get();
+        return view('admin.books.allProduct',compact('allBooks'));
+    }
 }

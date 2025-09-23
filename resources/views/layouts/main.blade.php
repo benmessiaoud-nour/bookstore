@@ -136,6 +136,15 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 mx-auto">
 
+                    @auth
+                        <li class="nav-item ms-4">
+                            <a class="nav-link" href="{{route('my.product')}}">
+                                <i class="fas fa-shopping-basket"></i>
+                                My Products
+                            </a>
+                        </li>
+                    @endauth
+
                     <li class="nav-item ms-4">
                         <a class="nav-link" href="{{route('gallery.authors.index')}}">
                             <i class="fa-solid fa-pen"></i>
